@@ -1,0 +1,69 @@
+openapi: 3.0.3
+info:
+  title: Student Management API
+  version: 1.0.0
+paths:
+  /students:
+    get:
+      summary: List students
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Student list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  students:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Student"
+                  total:
+                    type: integer
+  /students/{student_id}:
+    get:
+      summary: Get a student
+      parameters:
+        - name: student_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: One student
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+    delete:
+      summary: Delete a student
+      parameters:
+        - name: student_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+components:
+  schemas:
+    Student:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        age:
+          type: integer

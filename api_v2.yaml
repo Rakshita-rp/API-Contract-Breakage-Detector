@@ -1,0 +1,82 @@
+openapi: 3.0.3
+info:
+  title: Student Management API
+  version: 2.0.0
+paths:
+  /students:
+    get:
+      summary: List students
+      parameters:
+        - name: limit
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: department
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Student list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  students:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Student"
+                  total:
+                    type: string
+  /students/{student_id}:
+    get:
+      summary: Get a student
+      parameters:
+        - name: student_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: One student
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+  /courses:
+    get:
+      summary: List courses (new endpoint)
+      responses:
+        "200":
+          description: Course list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    course_id:
+                      type: integer
+                    title:
+                      type: string
+components:
+  schemas:
+    Student:
+      type: object
+      required: [id, name, email]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        age:
+          type: integer
+        phone:
+          type: string
